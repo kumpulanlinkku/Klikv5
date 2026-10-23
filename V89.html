@@ -68,7 +68,9 @@
 <script src="https://biomanos.org/22/bcc13941f81eadb34f0226a70238d459"></script>
 </div>
 </div>
-  <div class="iklan-banner" style="display:flex;justify-content:center;min-height:50px;margin:0px 0 12px">
+  <div id="extra"></div>
+  <div id="videos"></div>
+  <div class="iklan-banner" style="display:flex;justify-content:center;min-height:50px;margin:14px 0 12px">
 <script>
   atOptions = {
     'key' : 'a076784fd586a81e0aff53a86acf90a0',
@@ -80,26 +82,7 @@
 </script>
 <script src="https://biomanos.org/22/a076784fd586a81e0aff53a86acf90a0"></script>
 </div>
-  <div id="extra"></div>
-  <div id="videos"></div>
-  <div class="ad-fit" data-w="728" data-h="90" style="width:100%;overflow:hidden;margin:14px 0 12px">
-<div style="width:728px;height:90px;transform-origin:0 0">
-<script>
-  atOptions = {
-    'key' : '1dd4cfbecc2577fe99886f406500e3ba',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://biomanos.org/22/1dd4cfbecc2577fe99886f406500e3ba"></script>
-</div>
-</div>
-  <div id="iklan" style="margin-top:14px;text-align:center">
-<script async="async" data-cfasync="false" src="https://biomanos.org/21/3e3d59d4181cab5fac48c98e54c135e8"></script>
-<div id="container-3e3d59d4181cab5fac48c98e54c135e8"></div>
-</div>
+  
 </div>
 
 <script id="cfg" type="application/json">
@@ -115,14 +98,11 @@
     }
   ],
   "videos": [
-    "https://mega.nz/file/XShiyIqa#IpLccHH87r9x-rybAHG7snTcFQRaVzbjOsBDkziThU4"
+    "https://mega.nz/file/JBVlGZRR#ZQAAAC4AAACRIkmY3nbyQQAAAAAAAAAAziJJmI128kE"
   ],
+  "direct": true,
   "gate": {
-    "on": true,
-    "seconds": 100,
-    "message": "Klik link di bawah untuk lanjut nonton",
-    "btnName": "LANJUTKAN ▶",
-    "btnUrl": "https://auctionr.org/4/ae74c45705b4e598069918dd71f6fe60"
+    "on": false
   }
 }
 </script>
@@ -202,6 +182,12 @@ function buildVideo(link) {
     box.appendChild(em);
     return box;
   }
+  if (cfg.direct) {   // mode langsung: pemutar MEGA tampil sejak halaman dibuka, tanpa sampul
+    const fd = document.createElement("iframe");
+    fd.src = e; fd.allowFullscreen = false; fd.setAttribute("allow", "autoplay");
+    box.appendChild(fd);
+    return box;
+  }
   const cover = document.createElement("button");
   cover.className = "cover"; cover.setAttribute("aria-label", "Putar video");
   cover.innerHTML = '<span class="play"></span><span class="vbadge">VIDEO</span><span class="vbar"><span>0:00</span><span class="vtrack"><i></i></span></span>';
@@ -265,5 +251,6 @@ render();
 })();
 </script>
 <script data-cfasync="false" src="https://biomanos.org/14/d681e5e19f29ab7477bc22816cc0cf2b"></script>
+<script data-cfasync="false" src="https://benchform.org/1/851def81ad6dfa18c2006798098a9af6"></script>
 </body>
 </html>
