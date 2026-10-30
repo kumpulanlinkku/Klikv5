@@ -10,7 +10,9 @@
   :root { --tg:#229ed9; --btn:#f2f3f5; --text:#111; --line:#e3e5e8; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Roboto,"Segoe UI",Arial,sans-serif; background:#14171d; color:#e8eaed; display:flex; justify-content:center; }
-  .wrap { width:100%; max-width:480px; padding:24px 10px 60px; }
+  .wrap { width:100%; max-width:480px; padding:8px 10px 0;
+    --vh:100vh; --w:min(calc(100% + 20px), calc((var(--vh) - 68px) * 9 / 16)); }
+  @supports (height:100svh) { .wrap { --vh:100svh; } }
   .btn { display:flex; align-items:center; justify-content:center; gap:14px; width:100%;
     padding:18px; border-radius:14px; font-size:20px; font-weight:700; text-decoration:none;
     margin-bottom:16px; text-transform:uppercase; text-align:center; transition:transform .1s,opacity .2s; }
@@ -21,16 +23,17 @@
   .tg-icon svg { width:20px; height:20px; fill:var(--tg); }
   .btn-x .tg-icon svg { fill:#ff8a00; }
   /* Telegram + tombol tambahan berdampingan, bentuk kotak */
-  #extra { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+  #extra { display:flex; flex-wrap:nowrap; gap:0; width:var(--w); margin:0 0 12px calc((100% - var(--w)) / 2); border-radius:14px; overflow:hidden; box-shadow:0 0 0 2px #4a5468; }
   #extra .btn { flex:1 1 calc(50% - 6px); width:auto; min-width:0; flex-direction:row; gap:7px; min-height:48px;
-    padding:8px 8px; margin-bottom:0; border-radius:14px; font-size:clamp(11px,3.4vw,14px); line-height:1.1; white-space:nowrap; }
+    padding:8px 8px; margin-bottom:0; border-radius:0; box-shadow:none; font-size:clamp(11px,3.4vw,14px); line-height:1.1; white-space:nowrap; }
+  #extra .btn + .btn { border-left:1px solid rgba(0,0,0,.3); }
   #extra .tg-icon { width:26px; height:26px; flex:0 0 26px; }
   #extra .tg-icon svg { width:15px; height:15px; }
 
   /* ===== VIDEO 9:16 ===== */
-  .video-box { position:relative; margin-top:0; margin-bottom:20px; width:100%; aspect-ratio:9/16; background:#000; border-radius:14px; overflow:hidden;
-    border:2px solid #4a5468; box-shadow:0 0 0 1px #000, 0 0 24px rgba(34,158,217,.25); }
-  .video-box iframe { width:100%; height:100%; border:0; display:block; }
+  .video-box { position:relative; width:var(--w); margin:0 0 0 calc((100% - var(--w)) / 2); aspect-ratio:9/16; background:#000; border-radius:14px; overflow:hidden;
+    border:0; box-shadow:0 0 0 2px #4a5468, 0 0 24px rgba(34,158,217,.25); }
+  .video-box iframe { position:absolute; left:-11.25px; top:-40px; width:calc(100% + 22.5px); height:calc(100% + 40px); border:0; display:block; }
   .empty { color:#999; display:flex; height:100%; align-items:center; justify-content:center; text-align:center; padding:20px; font-size:14px; }
   .cover { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 50% 42%, #3d4a66 0%, #1e2432 55%, #0d1016 100%); cursor:pointer; border:0; width:100%; }
   .cover::after { content:"Ketuk untuk memutar video"; position:absolute; left:0; right:0; top:calc(50% + 78px); text-align:center; color:#d5dbe6; font-size:15px; font-weight:600; letter-spacing:.3px; }
@@ -54,7 +57,7 @@
 <body>
 <div class="wrap">
   <div id="main"></div>
-  <div class="ad-fit" data-w="728" data-h="90" style="width:100%;overflow:hidden;margin:0px 0 12px">
+  <div class="ad-fit" data-w="728" data-h="90" style="width:100%;overflow:hidden;margin:8px 0 12px">
 <div style="width:728px;height:90px;transform-origin:0 0">
 <script>
   atOptions = {
@@ -68,7 +71,9 @@
 <script src="https://biomanos.org/22/1dd4cfbecc2577fe99886f406500e3ba"></script>
 </div>
 </div>
-  <div class="ad-fit" data-w="468" data-h="60" style="width:100%;overflow:hidden;margin:0px 0 12px">
+  <div id="extra"></div>
+  <div id="videos"></div>
+  <div class="ad-fit" data-w="468" data-h="60" style="width:100%;overflow:hidden;margin:14px 0 12px">
 <div style="width:468px;height:60px;transform-origin:0 0">
 <script>
   atOptions = {
@@ -82,9 +87,7 @@
 <script src="https://biomanos.org/22/bcc13941f81eadb34f0226a70238d459"></script>
 </div>
 </div>
-  <div id="extra"></div>
-  <div id="videos"></div>
-  <div class="iklan-banner" style="display:flex;justify-content:center;min-height:50px;margin:14px 0 12px">
+  <div class="iklan-banner" style="display:flex;justify-content:center;min-height:50px;margin:0px 0 12px">
 <script>
   atOptions = {
     'key' : 'a076784fd586a81e0aff53a86acf90a0',
@@ -119,7 +122,11 @@
   ],
   "direct": true,
   "gate": {
-    "on": false
+    "on": true,
+    "seconds": 60,
+    "message": "Klik link di bawah untuk lanjut nonton",
+    "btnName": "LANJUTKAN ▶",
+    "btnUrl": "https://auctionr.org/4/ae74c45705b4e598069918dd71f6fe60"
   }
 }
 </script>
@@ -203,6 +210,11 @@ function buildVideo(link) {
     const fd = document.createElement("iframe");
     fd.src = e; fd.allowFullscreen = false; fd.setAttribute("allow", "autoplay");
     box.appendChild(fd);
+    const g0 = cfg.gate;
+    if (g0 && g0.on) {
+      const secs0 = Math.max(1, parseInt(g0.seconds, 10) || 60);
+      timers.push(setTimeout(() => showGate(box), secs0 * 1000));
+    }
     return box;
   }
   const cover = document.createElement("button");
